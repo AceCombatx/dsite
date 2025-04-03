@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Hub - Modern Web Experiences</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Base Styles */
+    :root {
+      --background: #ffffff;
+      --foreground: #0f172a;
+      --muted-foreground: #64748b;
+      --primary: #8b5cf6;
+      --primary-foreground: #ffffff;
+      --secondary: #f1f5f9;
+      --secondary-foreground: #0f172a;
+      --accent: #f1f5f9;
+      --accent-foreground: #0f172a;
+      --border: #e2e8f0;
+      --input: #e2e8f0;
+      --ring: #8b5cf6;
+      --radius: 0.5rem;
+      
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+    }
+
+    .dark {
+      --background: #0f172a;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+      --primary: #8b5cf6;
+      --primary-foreground: #ffffff;
+      --secondary: #1e293b;
+      --secondary-foreground: #f8fafc;
+      --accent: #1e293b;
+      --accent-foreground: #f8fafc;
+      --border: #334155;
+      --input: #334155;
+      --ring: #8b5cf6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.5;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    /* Buttons */
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .button svg {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    .primary-button {
+      background: linear-gradient(to right, var(--pink), var(--purple), var(--cyan));
+      color: white;
+      border: none;
+    }
+
+    .primary-button:hover {
+      box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.2);
+    }
+
+    .outline-button {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--foreground);
+    }
+
+    .outline-button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .header.scrolled {
+      background-color: rgba(var(--background), 0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 4rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .sparkle {
+      margin-left: 0.5rem;
+      color: var(--primary);
+      animation: pulse 2s infinite;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    .nav-link {
+      position: relative;
+      margin: 0 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--foreground);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: var(--foreground);
+    }
+
+    .header-actions {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 4rem;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--background);
+      z-index: 40;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      overflow-y: auto;
+    }
+
+    .mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-nav {
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav-link {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+    }
+
+    .mobile-nav-link.active {
+      color: var(--foreground);
+    }
+
+    .mobile-nav-link.active::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      margin-right: 0.5rem;
+    }
+
+    .mobile-cta {
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      background: linear-gradient(to bottom, var(--background), var(--background));
+      overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .hero-title {
+      display: flex;
+      flex-direction: column;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .gradient-text {
+      background: linear-gradient(to right, var(--pink), var(--purple), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .title-underline {
+      height: 4px;
+      width: 0;
+      background: linear-gradient(to right, var(--pink), var(--purple), var(--cyan));
+      border-radius: 9999px;
+      margin: 0 auto;
+      animation: expand 0.8s forwards 0.5s;
+    }
+
+    .hero-description {
+      max-width: 36rem;
+      margin: 1.5rem auto;
+      color: var(--muted-foreground);
+      font-size: 1.125rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .mouse-hint {
+      margin-top: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted-foreground);
+    }
+
+    .mouse-hint svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .particle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .section-underline {
+      height: 4px;
+      width: 6rem;
+      background: linear-gradient(to right, var(--pink), var(--purple), var(--cyan));
+      border-radius: 9999px;
+      margin: 0 auto 1rem;
+    }
+
+    .section-header p {
+      color: var(--muted-foreground);
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      background-color: rgba(var(--background), 0.5);
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card[data-color="pink"]:hover {
+      border-image: linear-gradient(to right, var(--pink), var(--pink)) 1;
+    }
+
+    .feature-card[data-color="purple"]:hover {
+      border-image: linear-gradient(to right, var(--purple), var(--purple)) 1;
+    }
+
+    .feature-card[data-color="cyan"]:hover {
+      border-image: linear-gradient(to right, var(--cyan), var(--cyan)) 1;
+    }
+
+    .feature-card[data-color="amber"]:hover {
+      border-image: linear-gradient(to right, var(--amber), var(--amber)) 1;
+    }
+
+    .card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card[data-color="pink"] .card-icon {
+      color: var(--pink);
+      background-color: rgba(236, 72, 153, 0.1);
+    }
+
+    .feature-card[data-color="purple"] .card-icon {
+      color: var(--purple);
+      background-color: rgba(139, 92, 246, 0.1);
+    }
+
+    .feature-card[data-color="cyan"] .card-icon {
+      color: var(--cyan);
+      background-color: rgba(6, 182, 212, 0.1);
+    }
+
+    .feature-card[data-color="amber"] .card-icon {
+      color: var(--amber);
+      background-color: rgba(245, 158, 11, 0.1);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--muted-foreground);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--foreground);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .card-link:hover {
+      color: var(--primary);
+    }
+
+    .card-link svg {
+      transition: transform 0.3s;
+    }
+
+    .card-link:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Interactive Demo Section */
+    .interactive-demo {
+      padding: 5rem 0;
+      background-color: rgba(var(--muted), 0.5);
+    }
+
+    .demo-container {
+      max-width: 48rem;
+      margin: 0 auto;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background-color: var(--background);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .tab-button svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .tab-button.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .canvas-container {
+      background-color: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    #drawing-canvas {
+      width: 100%;
+      height: 300px;
+      touch-action: none;
+    }
+
+    .canvas-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .color-picker {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .color-button {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .brush-size {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brush-size span {
+      font-size: 0.875rem;
+    }
+
+    .game-container {
+      position: relative;
+      background: linear-gradient(to bottom right, #1e293b, #0f172a);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    #game-canvas {
+      width: 100%;
+      height: 300px;
+    }
+
+    .score-display {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+
+    .game-over-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+    }
+
+    .game-over-screen h3 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .game-over-screen p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+    }
+
+    .game-instructions {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .game-instructions p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted-foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .game-instructions svg {
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    /* Activities Section */
+    .activities {
+      padding: 5rem 0;
+      position: relative;
+    }
+
+    .section-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-icon::before,
+    .section-icon::after {
+      content: '';
+      height: 1px;
+      width: 3rem;
+      background-color: var(--primary);
+    }
+
+    .section-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0 1rem;
+      color: var(--primary);
+      animation: pulse 2s infinite;
+    }
+
+    .activity-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .activity-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background-color: var(--background);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .activity-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-image: linear-gradient(to right, var(--pink), var(--purple), var(--cyan)) 1;
+    }
+
+    .activity-image {
+      position: relative;
+      height: 12rem;
+      overflow: hidden;
+    }
+
+    .activity-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .activity-card:hover .activity-image img {
+      transform: scale(1.05);
+    }
+
+    .activity-badge {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .activity-card:hover .activity-badge {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .activity-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .activity-content h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .activity-content p {
+      color: var(--muted-foreground);
+    }
+
+    .activity-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .activity-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--foreground);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .activity-link:hover {
+      color: var(--primary);
+    }
+
+    .activity-link svg {
+      transition: transform 0.3s;
+    }
+
+    .activity-link:hover svg {
+      transform: translateX(4px);
+    }
+
+    .view-all {
+      text-align: center;
+    }
+
+    /* Featured Section */
+    .featured {
+      padding: 5rem 0;
+      background: linear-gradient(to bottom, var(--background), var(--muted));
+    }
+
+    .featured-slider {
+      position: relative;
+      margin-top: 2rem;
+      overflow: hidden;
+      border-radius: var(--radius);
+    }
+
+    .featured-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-slide {
+      flex: 0 0 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      background-color: rgba(var(--background), 0.05);
+      backdrop-filter: blur(4px);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .slide-image {
+      position: relative;
+      height: 20rem;
+      overflow: hidden;
+    }
+
+    .slide-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));
+      mix-blend-mode: overlay;
+    }
+
+    .slide-content {
+      padding: 2rem;
+    }
+
+    .slide-content h3 {
+      font-size: 1.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .slide-content p {
+      font-size: 1.125rem;
+      color: var(--muted-foreground);
+      margin-bottom: 1.5rem;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background-color: rgba(var(--background), 0.8);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.3s;
+    }
+
+    .slider-arrow:hover {
+      background-color: rgba(var(--background), 0.9);
+    }
+
+    .slider-arrow.prev {
+      left: 1rem;
+    }
+
+    .slider-arrow.next {
+      right: 1rem;
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .slider-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: var(--border);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .slider-dot.active {
+      background: linear-gradient(to right, var(--pink), var(--purple), var(--cyan));
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--background);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-column h3,
+    .footer-column h4 {
+      margin-bottom: 1rem;
+    }
+
+    .footer-column p {
+      color: var(--muted-foreground);
+    }
+
+    .footer-column ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-column ul a {
+      color: var(--muted-foreground);
+      transition: color 0.3s;
+    }
+
+    .footer-column ul a:hover {
+      color: var(--foreground);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted-foreground);
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes expand {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    /* Media Queries */
+    @media (min-width: 640px) {
+      .hero-buttons {
+        flex-direction: row;
+      }
+      
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .desktop-nav {
+        display: flex;
+      }
+      
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .mobile-menu-toggle {
+        display: none;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem;
+      }
+      
+      .feature-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .activity-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .featured-slide {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-title {
+        font-size: 4rem;
+      }
+      
+      .feature-cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .activity-cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="/">Interactive Hub</a>
+          <span class="sparkle">✨</span>
+        </div>
+        
+        <nav class="desktop-nav">
+          <a href="/" class="nav-link active">Home</a>
+          <a href="/activities" class="nav-link">Activities</a>
+          <a href="/about" class="nav-link">About</a>
+          <a href="/blog" class="nav-link">Blog</a>
+          <a href="/contact" class="nav-link">Contact</a>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <a href="/activities" class="button primary-button">Get Started</a>
+        </div>
+        
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="/" class="mobile-nav-link active">Home</a>
+      <a href="/activities" class="mobile-nav-link">Activities</a>
+      <a href="/about" class="mobile-nav-link">About</a>
+      <a href="/blog" class="mobile-nav-link">Blog</a>
+      <a href="/contact" class="mobile-nav-link">Contact</a>
+      <a href="/activities" class="button primary-button mobile-cta">Get Started</a>
+    </nav>
+  </div>
+  
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <canvas id="hero-canvas" class="hero-canvas"></canvas>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span>Interactive Experiences</span>
+            <span class="gradient-text">For Everyone</span>
+          </h1>
+          <div class="title-underline"></div>
+          
+          <p class="hero-description">
+            Discover a world of interactive activities, games, and creative tools designed to engage, entertain, and inspire.
+          </p>
+          
+          <div class="hero-buttons">
+            <a href="/activities" class="button primary-button">
+              <span>Explore Activities</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-icon">
+                <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"></path>
+              </svg>
+            </a>
+            <a href="/about" class="button outline-button">Learn More</a>
+          </div>
+          
+          <div class="mouse-hint">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="3" width="12" height="18" rx="6"></rect>
+              <line x1="12" y1="7" x2="12" y2="11"></line>
+            </svg>
+            <span>Move your mouse to interact with the particles</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+      <canvas id="particle-canvas" class="particle-canvas"></canvas>
+      <div class="container">
+        <div class="section-header">
+          <h2>Interactive Features</h2>
+          <div class="section-underline"></div>
+          <p>Explore our collection of interactive elements designed to engage and inspire.</p>
+        </div>
+        
+        <div class="feature-cards">
+          <div class="feature-card" data-color="pink">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Interactive Games</h3>
+            <p>Test your skills with our collection of games</p>
+            <a href="/activities/games" class="card-link">
+              <span>Explore Games</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          
+          <div class="feature-card" data-color="purple">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <h3>Creative Tools</h3>
+            <p>Express yourself with our creative applications</p>
+            <a href="/activities/creative" class="card-link">
+              <span>Start Creating</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          
+          <div class="feature-card" data-color="cyan">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                <path d="M2 2l7.586 7.586"></path>
+                <circle cx="11" cy="11" r="2"></circle>
+              </svg>
+            </div>
+            <h3>Learning Modules</h3>
+            <p>Expand your knowledge with interactive lessons</p>
+            <a href="/activities/learning" class="card-link">
+              <span>Start Learning</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          
+          <div class="feature-card" data-color="amber">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3>Challenges</h3>
+            <p>Push your limits with our daily challenges</p>
+            <a href="/activities/challenges" class="card-link">
+              <span>Take a Challenge</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Interactive Demo Section -->
+    <section class="interactive-demo">
+      <div class="container">
+        <div class="section-header">
+          <h2>Try It Now</h2>
+          <div class="section-underline"></div>
+          <p>Experience some of our interactive demos right in your browser.</p>
+        </div>
+        
+        <div class="demo-container">
+          <div class="tabs">
+            <button class="tab-button active" data-tab="canvas">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+              Drawing Canvas
+            </button>
+            <button class="tab-button" data-tab="game">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="6" y1="11" x2="10" y2="11"></line>
+                <line x1="8" y1="9" x2="8" y2="13"></line>
+                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                <circle cx="14" cy="12" r="2"></circle>
+                <circle cx="18" cy="10" r="1"></circle>
+              </svg>
+              Target Game
+            </button>
+          </div>
+          
+          <div class="tab-content active" id="canvas-tab">
+            <div class="canvas-container">
+              <canvas id="drawing-canvas"></canvas>
+            </div>
+            
+            <div class="canvas-controls">
+              <div class="color-picker">
+                <button class="color-button" data-color="#ec4899" style="background-color: #ec4899;"></button>
+                <button class="color-button" data-color="#8b5cf6" style="background-color: #8b5cf6;"></button>
+                <button class="color-button" data-color="#06b6d4" style="background-color: #06b6d4;"></button>
+                <button class="color-button" data-color="#000000" style="background-color: #000000;"></button>
+              </div>
+              
+              <div class="brush-size">
+                <span>Size:</span>
+                <input type="range" min="1" max="20" value="5" id="brush-size">
+              </div>
+              
+              <button class="button outline-button" id="clear-canvas">Clear Canvas</button>
+            </div>
+          </div>
+          
+          <div class="tab-content" id="game-tab">
+            <div class="game-container">
+              <div class="score-display">Score: <span id="game-score">0</span></div>
+              <canvas id="game-canvas"></canvas>
+              
+              <div class="game-over-screen" id="game-over">
+                <h3>Great Job!</h3>
+                <p>You cleared all the targets!</p>
+                <button class="button primary-button" id="play-again">Play Again</button>
+              </div>
+            </div>
+            
+            <div class="game-instructions">
+              <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="6" y="3" width="12" height="18" rx="6"></rect>
+                  <line x1="12" y1="7" x2="12" y2="11"></line>
+                </svg>
+                Click on the colored circles to score points!
+              </p>
+              <button class="button outline-button" id="reset-game">Reset Game</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Activities Section -->
+    <section class="activities">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"></path>
+            </svg>
+          </div>
+          <h2>Popular Activities</h2>
+          <p>Check out our most popular interactive activities and games.</p>
+        </div>
+        
+        <div class="activity-cards">
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="https://via.placeholder.com/400x200" alt="Memory Challenge">
+              <span class="activity-badge">Game</span>
+            </div>
+            <div class="activity-content">
+              <h3>Memory Challenge</h3>
+              <p>Test and improve your memory skills with this interactive game</p>
+            </div>
+            <div class="activity-footer">
+              <a href="/activities/memory" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="https://via.placeholder.com/400x200" alt="Interactive Canvas">
+              <span class="activity-badge">Creative</span>
+            </div>
+            <div class="activity-content">
+              <h3>Interactive Canvas</h3>
+              <p>Create digital art with our interactive drawing tool</p>
+            </div>
+            <div class="activity-footer">
+              <a href="/activities/canvas" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card">
+            <div class="activity-image">
+              <img src="https://via.placeholder.com/400x200" alt="Quiz Master">
+              <span class="activity-badge">Learning</span>
+            </div>
+            <div class="activity-content">
+              <h3>Quiz Master</h3>
+              <p>Challenge yourself with quizzes on various topics</p>
+            </div>
+            <div class="activity-footer">
+              <a href="/activities/quiz" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="view-all">
+          <a href="/activities" class="button primary-button">
+            <span>View All Activities</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Featured Section -->
+    <section class="featured">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Experiences</h2>
+          <div class="section-underline"></div>
+          <p>Discover our most immersive and engaging interactive experiences.</p>
+        </div>
+        
+        <div class="featured-slider">
+          <div class="featured-slides" id="featured-slides">
+            <!-- Slides will be populated by JavaScript -->
+          </div>
+          
+          <button class="slider-arrow prev" id="prev-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <button class="slider-arrow next" id="next-slide">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+          
+          <div class="slider-dots" id="slider-dots">
+            <!-- Dots will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3>Interactive Hub</h3>
+            <p>Your destination for interactive web experiences and activities.</p>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Activities</h4>
+            <ul>
+              <li><a href="/activities/games">Games</a></li>
+              <li><a href="/activities/creative">Creative Tools</a></li>
+              <li><a href="/activities/learning">Learning</a></li>
+              <li><a href="/activities/challenges">Challenges</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/tutorials">Tutorials</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/support">Support</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year"></span> Interactive Hub. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+  
+  <script>
+    // DOM Elements
+    const header = document.querySelector('.header');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const themeToggle = document.querySelector('.theme-toggle');
+    const drawingCanvas = document.getElementById('drawing-canvas');
+    const gameCanvas = document.getElementById('game-canvas');
+    const colorButtons = document.querySelectorAll('.color-button');
+    const brushSizeInput = document.getElementById('brush-size');
+    const clearCanvasButton = document.getElementById('clear-canvas');
+    const resetGameButton = document.getElementById('reset-game');
+    const playAgainButton = document.getElementById('play-again');
+    const gameScore = document.getElementById('game-score');
+    const gameOver = document.getElementById('game-over');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const heroCanvas = document.getElementById('hero-canvas');
+    const particleCanvas = document.getElementById('particle-canvas');
+    const featuredSlides = document.getElementById('featured-slides');
+    const sliderDots = document.getElementById('slider-dots');
+    const prevSlideButton = document.getElementById('prev-slide');
+    const nextSlideButton = document.getElementById('next-slide');
+    const currentYearElement = document.getElementById('current-year');
+
+    // Set current year in footer
+    currentYearElement.textContent = new Date().getFullYear();
+
+    // Theme Toggle
+    let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function updateTheme() {
+      if (isDarkMode) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+    }
+
+    updateTheme();
+
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      updateTheme();
+    });
+
+    // Mobile Menu Toggle
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : 'auto';
+    });
+
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Tab Switching
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tabId = button.getAttribute('data-tab');
+        
+        // Update active tab button
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Show active tab content
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+          if (content.id === `${tabId}-tab`) {
+            content.classList.add('active');
+          }
+        });
+        
+        // Initialize the appropriate canvas
+        if (tabId === 'canvas') {
+          initDrawingCanvas();
+        } else if (tabId === 'game') {
+          initGameCanvas();
+        }
+      });
+    });
+
+    // Drawing Canvas
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let brushColor = '#ec4899';
+    let brushSize = 5;
+
+    function initDrawingCanvas() {
+      if (!drawingCanvas) return;
+      
+      const ctx = drawingCanvas.getContext('2d');
+      const container = drawingCanvas.parentElement;
+      
+      // Set canvas dimensions
+      drawingCanvas.width = container.offsetWidth;
+      drawingCanvas.height = 300;
+      
+      // Fill with white background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+      
+      // Event listeners
+      drawingCanvas.addEventListener('mousedown', startDrawing);
+      drawingCanvas.addEventListener('mousemove', draw);
+      drawingCanvas.addEventListener('mouseup', stopDrawing);
+      drawingCanvas.addEventListener('mouseout', stopDrawing);
+      
+      drawingCanvas.addEventListener('touchstart', handleTouchStart);
+      drawingCanvas.addEventListener('touchmove', handleTouchMove);
+      drawingCanvas.addEventListener('touchend', stopDrawing);
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      
+      const rect = drawingCanvas.getBoundingClientRect();
+      lastX = e.clientX - rect.left;
+      lastY = e.clientY - rect.top;
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      
+      const ctx = drawingCanvas.getContext('2d');
+      const rect = drawingCanvas.getBoundingClientRect();
+      const currentX = e.clientX - rect.left;
+      const currentY = e.clientY - rect.top;
+      
+      ctx.beginPath();
+      ctx.strokeStyle = brushColor;
+      ctx.lineWidth = brushSize;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(currentX, currentY);
+      ctx.stroke();
+      
+      lastX = currentX;
+      lastY = currentY;
+    }
+
+    function handleTouchStart(e) {
+      e.preventDefault();
+      
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousedown', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      
+      startDrawing(mouseEvent);
+    }
+
+    function handleTouchMove(e) {
+      e.preventDefault();
+      
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+      
+      draw(mouseEvent);
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    // Color buttons
+    colorButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        brushColor = button.getAttribute('data-color');
+      });
+    });
+
+    // Brush size
+    brushSizeInput.addEventListener('input', () => {
+      brushSize = brushSizeInput.value;
+    });
+
+    // Clear canvas
+    clearCanvasButton.addEventListener('click', () => {
+      const ctx = drawingCanvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+    });
+
+    // Game Canvas
+    let score = 0;
+    let targets = [];
+
+    function initGameCanvas() {
+      if (!gameCanvas) return;
+      
+      const ctx = gameCanvas.getContext('2d');
+      const container = gameCanvas.parentElement;
+      
+      // Set canvas dimensions
+      gameCanvas.width = container.offsetWidth;
+      gameCanvas.height = 300;
+      
+      // Reset game
+      score = 0;
+      gameScore.textContent = score;
+      gameOver.style.display = 'none';
+      
+      // Generate targets
+      generateTargets();
+      
+      // Start game loop
+      requestAnimationFrame(gameLoop);
+      
+      // Event listener
+      gameCanvas.addEventListener('click', handleGameClick);
+    }
+
+    function generateTargets() {
+      targets = [];
+      const colors = ['#ec4899', '#8b5cf6', '#06b6d4', '#f59e0b'];
+      
+      for (let i = 0; i < 5; i++) {
+        targets.push({
+          x: Math.random() * (gameCanvas.width - 50) + 25,
+          y: Math.random() * (gameCanvas.height - 50) + 25,
+          size: Math.random() * 20 + 20,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function gameLoop() {
+      if (!gameCanvas) return;
+      
+      const ctx = gameCanvas.getContext('2d');
+      ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      
+      // Draw targets
+      for (const target of targets) {
+        // Fill circle
+        ctx.fillStyle = target.color;
+        ctx.beginPath();
+        ctx.arc(target.x, target.y, target.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Add pulsing effect
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(target.x, target.y, target.size + Math.sin(Date.now() / 200) * 5, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      
+      requestAnimationFrame(gameLoop);
+    }
+
+    function handleGameClick(e) {
+      const rect = gameCanvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      
+      // Check if click hit any target
+      let targetHit = false;
+      
+      targets = targets.filter(target => {
+        const dx = clickX - target.x;
+        const dy = clickY - target.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance <= target.size) {
+          targetHit = true;
+          return false; // Remove this target
+        }
+        
+        return true; // Keep this target
+      });
+      
+      if (targetHit) {
+        score += 10;
+        gameScore.textContent = score;
+        
+        // Generate new targets if all are gone
+        if (targets.length === 0) {
+          gameOver.style.display = 'flex';
+        }
+      }
+    }
+
+    // Reset game
+    resetGameButton.addEventListener('click', () => {
+      score = 0;
+      gameScore.textContent = score;
+      gameOver.style.display = 'none';
+      generateTargets();
+    });
+
+    // Play again
+    playAgainButton.addEventListener('click', () => {
+      score = 0;
+      gameScore.textContent = score;
+      gameOver.style.display = 'none';
+      generateTargets();
+    });
+
+    // Hero Canvas Particles
+    function initHeroCanvas() {
+      if (!heroCanvas) return;
+      
+      const ctx = heroCanvas.getContext('2d');
+      
+      // Set canvas dimensions
+      heroCanvas.width = window.innerWidth;
+      heroCanvas.height = window.innerHeight * 0.8;
+      
+      let particles = [];
+      const numberOfParticles = 100;
+      let mousePosition = { x: 0, y: 0 };
+      
+      // Track mouse position
+      window.addEventListener('mousemove', (e) => {
+        mousePosition.x = e.clientX;
+        mousePosition.y = e.clientY;
+      });
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * heroCanvas.width;
+          this.y = Math.random() * heroCanvas.height;
+          this.size = Math.random() * 5 + 1;
+          this.speedX = Math.random() * 3 - 1.5;
+          this.speedY = Math.random() * 3 - 1.5;
+          
+          // Generate a random color from a modern palette
+          const colors = [
+            'rgba(255, 105, 180, 0.7)', // pink
+            'rgba(147, 112, 219, 0.7)', // purple
+            'rgba(64, 224, 208, 0.7)',  // turquoise
+            'rgba(255, 165, 0, 0.7)',   // orange
+            'rgba(50, 205, 50, 0.7)'    // lime green
+          ];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // Boundary check
+          if (this.x > heroCanvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > heroCanvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+          
+          // Mouse interaction
+          const dx = mousePosition.x - this.x;
+          const dy = mousePosition.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 100) {
+            const angle = Math.atan2(dy, dx);
+            const force = -5 / distance;
+            
+            this.speedX += Math.cos(angle) * force;
+            this.speedY += Math.sin(angle) * force;
+          }
+          
+          // Apply some drag
+          this.speedX *= 0.99;
+          this.speedY *= 0.99;
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // Initialize particles
+      for (let i = 0; i < numberOfParticles; i++) {
+        particles.push(new Particle());
+      }
+      
+      function connectParticles() {
+        for (let a = 0; a < particles.length; a++) {
+          for (let b = a; b < particles.length; b++) {
+            const dx = particles[a].x - particles[b].x;
+            const dy = particles[a].y - particles[b].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 100) {
+              ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 100)})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(particles[b].x, particles[b].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+        
+        for (const particle of particles) {
+          particle.update();
+          particle.draw();
+        }
+        
+        connectParticles();
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    }
+
+    // Background Particles
+    function initParticleCanvas() {
+      if (!particleCanvas) return;
+      
+      const ctx = particleCanvas.getContext('2d');
+      
+      // Set canvas dimensions
+      particleCanvas.width = particleCanvas.offsetWidth;
+      particleCanvas.height = particleCanvas.offsetHeight;
+      
+      let particles = [];
+      const particleCount = Math.min(Math.floor(particleCanvas.width * particleCanvas.height / 10000), 100);
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * particleCanvas.width;
+          this.y = Math.random() * particleCanvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 0.5 - 0.25;
+          this.speedY = Math.random() * 0.5 - 0.25;
+          
+          // Generate a random color with low opacity
+          const hue = Math.floor(Math.random() * 360);
+          this.color = `hsla(${hue}, 70%, 60%, 0.3)`;
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          // Wrap around edges
+          if (this.x < 0) this.x = particleCanvas.width;
+          if (this.x > particleCanvas.width) this.x = 0;
+          if (this.y < 0) this.y = particleCanvas.height;
+          if (this.y > particleCanvas.height) this.y = 0;
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // Initialize particles
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      
+      function connectParticles() {
+        const maxDistance = 150;
+        
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < maxDistance) {
+              const opacity = 1 - (distance / maxDistance);
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.2})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+        
+        for (const particle of particles) {
+          particle.update();
+          particle.draw();
+        }
+        
+        connectParticles();
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    }
+
+    // Featured Slider
+    const featuredData = [
+      {
+        id: 1,
+        title: "Interactive Puzzle Challenge",
+        description: "Test your problem-solving skills with our interactive puzzle that adapts to your skill level.",
+        image: "https://via.placeholder.com/800x600",
+        color: "from-pink-500 to-rose-500",
+        href: "/activities/puzzle"
+      },
+      {
+        id: 2,
+        title: "Virtual Art Studio",
+        description: "Express your creativity with our digital canvas featuring advanced drawing tools and effects.",
+        image: "https://via.placeholder.com/800x600",
+        color: "from-violet-500 to-purple-600",
+        href: "/activities/art"
+      },
+      {
+        id: 3,
+        title: "Knowledge Quest",
+        description: "Embark on an interactive learning journey through various subjects with our gamified quizzes.",
+        image: "https://via.placeholder.com/800x600",
+        color: "from-cyan-400 to-blue-500",
+        href: "/activities/quest"
+      }
+    ];
+
+    let currentSlide = 0;
+
+    function initFeaturedSlider() {
+      if (!featuredSlides || !sliderDots) return;
+      
+      // Create slides
+      featuredData.forEach((slide, index) => {
+        const slideElement = document.createElement('div');
+        slideElement.className = 'featured-slide';
+        slideElement.innerHTML = `
+          <div class="slide-image">
+            <img src="${slide.image}" alt="${slide.title}">
+          </div>
+          <div class="slide-content">
+            <h3>${slide.title}</h3>
+            <p>${slide.description}</p>
+            <a href="${slide.href}" class="button primary-button">
+              <span>Try This Experience</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+        `;
+        featuredSlides.appendChild(slideElement);
+        
+        // Create dot
+        const dot = document.createElement('button');
+        dot.className = 'slider-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        sliderDots.appendChild(dot);
+      });
+      
+      // Set initial slide
+      updateSlider();
+      
+      // Event listeners
+      prevSlideButton.addEventListener('click', prevSlide);
+      nextSlideButton.addEventListener('click', nextSlide);
+      
+      // Auto slide
+      setInterval(nextSlide, 5000);
+    }
+
+    function updateSlider() {
+      featuredSlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update dots
+      const dots = sliderDots.querySelectorAll('.slider-dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlider();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + featuredData.length) % featuredData.length;
+      updateSlider();
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % featuredData.length;
+      updateSlider();
+    }
+
+    // Initialize everything
+    window.addEventListener('load', () => {
+      initDrawingCanvas();
+      initGameCanvas();
+      initHeroCanvas();
+      initParticleCanvas();
+      initFeaturedSlider();
+      
+      // Resize event
+      window.addEventListener('resize', () => {
+        initDrawingCanvas();
+        initGameCanvas();
+        initHeroCanvas();
+        initParticleCanvas();
+      });
+    });
+
+    // Feature card hover effects
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const color = card.getAttribute('data-color');
+        card.style.boxShadow = `0 10px 25px -5px ${color}20`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.boxShadow = '';
+      });
+    });
+
+    // Activity card hover effects
+    const activityCards = document.querySelectorAll('.activity-card');
+    activityCards.forEach(card => {
+      const image = card.querySelector('.activity-image img');
+      const link = card.querySelector('.activity-link svg');
+      
+      card.addEventListener('mouseenter', () => {
+        image.style.transform = 'scale(1.05)';
+        link.style.transform = 'translateX(4px)';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        image.style.transform = '';
+        link.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
+
