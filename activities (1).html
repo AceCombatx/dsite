@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activities - Interactive Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="images/favicon.png">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="index.html">Interactive Hub</a>
+          <span class="sparkle">✨</span>
+        </div>
+        
+        <nav class="desktop-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="activities.html" class="nav-link active">Activities</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <a href="#" class="button primary-button">Get Started</a>
+        </div>
+        
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="activities.html" class="mobile-nav-link active">Activities</a>
+      <a href="about.html" class="mobile-nav-link">About</a>
+      <a href="blog.html" class="mobile-nav-link">Blog</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="page-  class="mobile-nav-link">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>All Activities</h1>
+        <p>Explore our full collection of interactive experiences and activities</p>
+      </div>
+    </section>
+
+    <section class="activities-grid">
+      <div class="container">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label>Filter by:</label>
+            <button class="filter-button active" data-filter="all">All</button>
+            <button class="filter-button" data-filter="games">Games</button>
+            <button class="filter-button" data-filter="creative">Creative</button>
+            <button class="filter-button" data-filter="learning">Learning</button>
+            <button class="filter-button" data-filter="challenges">Challenges</button>
+          </div>
+          <div class="sort-group">
+            <label>Sort by:</label>
+            <select id="sort-select">
+              <option value="popular">Most Popular</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="activities-list">
+          <div class="activity-card" data-category="games">
+            <div class="activity-image">
+              <img src="images/memory-game.jpg" alt="Memory Challenge">
+              <span class="activity-badge">Game</span>
+            </div>
+            <div class="activity-content">
+              <h3>Memory Challenge</h3>
+              <p>Test and improve your memory skills with this interactive game</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/memory.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card" data-category="creative">
+            <div class="activity-image">
+              <img src="images/canvas-art.jpg" alt="Interactive Canvas">
+              <span class="activity-badge">Creative</span>
+            </div>
+            <div class="activity-content">
+              <h3>Interactive Canvas</h3>
+              <p>Create digital art with our interactive drawing tool</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/canvas.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card" data-category="learning">
+            <div class="activity-image">
+              <img src="images/quiz-game.jpg" alt="Quiz Master">
+              <span class="activity-badge">Learning</span>
+            </div>
+            <div class="activity-content">
+              <h3>Quiz Master</h3>
+              <p>Challenge yourself with quizzes on various topics</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/quiz.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card" data-category="challenges">
+            <div class="activity-image">
+              <img src="images/puzzle-challenge.jpg" alt="Puzzle Challenge">
+              <span class="activity-badge">Challenge</span>
+            </div>
+            <div class="activity-content">
+              <h3>Puzzle Challenge</h3>
+              <p>Test your problem-solving skills with our adaptive puzzles</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/puzzle.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card" data-category="games">
+            <div class="activity-image">
+              <img src="images/reaction-game.jpg" alt="Reaction Test">
+              <span class="activity-badge">Game</span>
+            </div>
+            <div class="activity-content">
+              <h3>Reaction Test</h3>
+              <p>Measure and improve your reaction time with this fast-paced game</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/reaction.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="activity-card" data-category="creative">
+            <div class="activity-image">
+              <img src="images/music-maker.jpg" alt="Music Maker">
+              <span class="activity-badge">Creative</span>
+            </div>
+            <div class="activity-content">
+              <h3>Music Maker</h3>
+              <p>Create your own music with our interactive sound board</p>
+            </div>
+            <div class="activity-footer">
+              <a href="activities/music.html" class="activity-link">
+                <span>Try it now</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>Interactive Hub</h3>
+          <p>Your destination for interactive web experiences and activities.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Activities</h4>
+          <ul>
+            <li><a href="activities/games.html">Games</a></li>
+            <li><a href="activities/creative.html">Creative Tools</a></li>
+            <li><a href="activities/learning.html">Learning</a></li>
+            <li><a href="activities/challenges.html">Challenges</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="tutorials.html">Tutorials</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="support.html">Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year"></span> Interactive Hub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
+
+```html file="about.html"
+&lt;!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Interactive Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="images/favicon.png">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="index.html">Interactive Hub</a>
+          <span class="sparkle">✨</span>
+        </div>
+        
+        <nav class="desktop-nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="activities.html" class="nav-link">Activities</a>
+          <a href="about.html" class="nav-link active">About</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <a href="activities.html" class="button primary-button">Get Started</a>
+        </div>
+        
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="activities.html" class="mobile-nav-link">Activities</a>
+      <a href="about.html" class="mobile-nav-link active">About</a>
+      <a href="blog.html" class="mobile-nav-link">Blog</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>About Us</h1>
+        <p>Learn more about our mission and the team behind Interactive Hub</p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content">
+            <h2>Our Story</h2>
+            <p>Interactive Hub was founded in 2020 with a simple mission: to create engaging, accessible, and educational interactive experiences for everyone.</p>
+            <p>What started as a small collection of web-based games has grown into a comprehensive platform offering a wide range of activities, from creative tools to educational modules and challenging puzzles.</p>
+            <p>We believe that interactive experiences are not just entertaining but can also be powerful tools for learning, self-expression, and personal growth.</p>
+            
+            <h2 class="mt-8">Our Mission</h2>
+            <p>Our mission is to make interactive digital experiences accessible to everyone, regardless of technical skill level or background. We strive to create tools and activities that are:</p>
+            
+            <ul class="mission-list">
+              <li>
+                <span class="mission-icon">🎮</span>
+                <div>
+                  <h3>Engaging</h3>
+                  <p>Designed to capture attention and provide enjoyable experiences</p>
+                </div>
+              </li>
+              <li>
+                <span class="mission-icon">🧠</span>
+                <div>
+                  <h3>Educational</h3>
+                  <p>Promoting learning and skill development through interactive challenges</p>
+                </div>
+              </li>
+              <li>
+                <span class="mission-icon">🎨</span>
+                <div>
+                  <h3>Creative</h3>
+                  <p>Encouraging self-expression and creative thinking</p>
+                </div>
+              </li>
+              <li>
+                <span class="mission-icon">🌐</span>
+                <div>
+                  <h3>Accessible</h3>
+                  <p>Available to everyone, regardless of device or technical knowledge</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="about-image">
+            <img src="images/about-team.jpg" alt="The Interactive Hub Team" class="rounded-image">
+            <div class="image-caption">Our team working on new interactive experiences</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="team-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Meet Our Team</h2>
+          <div class="section-underline"></div>
+          <p>The passionate individuals behind Interactive Hub</p>
+        </div>
+        
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <img src="images/team-member-1.jpg" alt="Alex Johnson">
+            </div>
+            <h3>Alex Johnson</h3>
+            <p class="member-role">Founder & Creative Director</p>
+            <p class="member-bio">Alex has over 10 years of experience in interactive design and game development.</p>
+          </div>
+          
+          <div class="team-member">
+            <div class="member-image">
+              <img src="images/team-member-2.jpg" alt="Sarah Chen">
+            </div>
+            <h3>Sarah Chen</h3>
+            <p class="member-role">Lead Developer</p>
+            <p class="member-bio">Sarah specializes in creating engaging and accessible web experiences.</p>
+          </div>
+          
+          <div class="team-member">
+            <div class="member-image">
+              <img src="images/team-member-3.jpg" alt="Michael Rodriguez">
+            </div>
+            <h3>Michael Rodriguez</h3>
+            <p class="member-role">UX Designer</p>
+            <p class="member-bio">Michael focuses on creating intuitive and delightful user experiences.</p>
+          </div>
+          
+          <div class="team-member">
+            <div class="member-image">
+              <img src="images/team-member-4.jpg" alt="Priya Patel">
+            </div>
+            <h3>Priya Patel</h3>
+            <p class="member-role">Educational Content Specialist</p>
+            <p class="member-bio">Priya ensures our activities are both fun and educational.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Join Our Community</h2>
+          <p>Be part of our growing community of interactive experience enthusiasts</p>
+          <div class="cta-buttons">
+            <a href="contact.html" class="button primary-button">Get in Touch</a>
+            <a href="activities.html" class="button outline-button">Explore Activities</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  &lt;!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>Interactive Hub</h3>
+          <p>Your destination for interactive web experiences and activities.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Activities</h4>
+          <ul>
+            <li><a href="activities/games.html">Games</a></li>
+            <li><a href="activities/creative.html">Creative Tools</a></li>
+            <li><a href="activities/learning.html">Learning</a></li>
+            <li><a href="activities/challenges.html">Challenges</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="tutorials.html">Tutorials</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="support.html">Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year"></span> Interactive Hub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
