@@ -661,4 +661,3 @@ activityCards.forEach((card) => {
     link.style.transform = ""
   })
 })
-
